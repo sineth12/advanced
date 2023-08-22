@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADVANCED <U>STORE MANEGMENT</U></title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" ></link>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+  
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+
+</head>
+<style>
+:root {
+  --color-primary: var(--yellow-400);
+  --color-primary-dark: var(--yellow-700);
+  --color-primary-light: var(--yellow-100);
+  --color-primary-xlight: #FEF9EC;
+  
+  --color-secondary: var(--orange-400);
+  --color-secondary-dark: var(--orange-700);
+  --color-secondary-light: var(--orange-100);
+  
+  --border-width: 2px;
+}
+
+.hidden {
+  position: absolute;
+  visibility: hidden;
+}
+
+.content-container {
+  display: grid;
+  gap: var(--spacing-xl);
+  grid-template-columns: repeat(2, max-content);
+  place-content: center;
+  grid-auto-flow: dense;
+/*   transform: rotate3d(1, 1, 1, -45deg); */
+/*   scale: 1.2 1.1; */
+}
+
+@media screen and (max-width: 900px) {
+  .content-container {
+    grid-template-columns: 1fr;
+    padding: var(--spacing-lg);
+  }
+  
+  .card {
+    width: 100%;
+  }
+  
+  .card.mobile-order-3 {
+    order: 3;
+  }
+}
+
+.content-container > * {
+  grid-row: span var(--row-span, 1);
+}
+
+.frame {
+  position: relative;
+  overflow: hidden;
+}
+
+.frame__bg {
+  position: absolute;
+  top: -31%;
+  left: -25%;
+  rotate: -10deg;
+  fill: var(--color-primary-light);
+  filter: url(#rounded) drop-shadow(1005px 0 0 var(--color-primary-light)) blur(0.5px);
+  opacity: 0.15;
+}
+
+@media screen and (max-width: 900px) {
+  .frame__bg {
+    scale: 0.5;
+    left: -150%;
+    top: -95%;
+  }
+}
+
+h1 {
+  font-family: "Barlow Semi Condensed", sans-serif;
+  font-weight: 800;
+  font-style: italic;
+  text-transform: uppercase;
+  color: var(--title-color);
+  text-shadow: 0.025em 0.025em 0 var(--color-primary), 0.05em 0.05em 2px var(--color-primary-light);
+  letter-spacing: 0.1rem;
+  transform: skewY(-10deg);
+  font-size: clamp(4rem,7vw,800%);
+  padding-top: var(--spacing-xl);
+  margin-bottom: var(--spacing-xl);
+  filter: url("#rounded");
+}
+
+@media screen and (max-width: 900px) {
+  h1 {
+    padding-top: 0;
+    line-height: 1;
+  }
+}
+
+.card {
+  --dot-size: 2px;
+  --dot-space: var(--spacing-lg);
+  
+  background:
+		linear-gradient(90deg, #fff calc(var(--dot-space) - var(--dot-size)), transparent 1%) center,
+		linear-gradient(#fff calc(var(--dot-space) - var(--dot-size)), transparent 1%) center,
+		var(--gray-100);
+	background-size: var(--dot-space) var(--dot-space);
+/*   box-shadow: -4px 3px 10px 2px rgba(0,0,0,0.2), -3px 3px 0 var(--gray-100), -4px 12px 20px rgba(0,0,0,0.2); */
+}
+
+.card__body {
+  padding: var(--spacing-lg);
+}
+
+.icon-flag {
+  margin-right: var(--spacing-xs);
+  vertical-align: baseline;
+  font-size: 120%;
+  padding: var(--spacing-xs);
+  border-radius: var(--border-radius-inner);
+/*   background-color: var(--gray-100); */
+  color: var(--color-primary);
+  background-color: var(--color-primary-light);
+  width: var(--spacing-xl);
+  height: var(--spacing-xl);
+  display: inline-flex;
+  place-items: center;
+  place-content: center;
+}
+
+
+.icon-flag--blue {
+  color: var(--blue-400) !important;
+  background-color: var(--blue-100);
+}
+
+.icon-flag--purple {
+  color: var(--purple-400) !important;
+  background-color: var(--purple-100);
+}
+
+.icon-flag--red {
+  color: var(--red-400) !important;
+  background-color: var(--red-100);
+}
+
+.icon-flag--orange {
+  color: var(--orange-400) !important;
+  background-color: var(--orange-100);
+}
+
+.icon-flag--navy {
+  color: var(--navy-400) !important;
+  background-color: var(--navy-100);
+}
+
+.icon-flag--green {
+  color: var(--green-400) !important;
+  background-color: var(--green-100);
+}
+
+.icon-flag--yellow {
+  color: var(--yellow-400) !important;
+  background-color: var(--yellow-100);
+}
+
+.journal {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
+}
+
+.journal-section {
+  border: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: var(--spacing-lg);
+}
+
+.journal-section__label {
+  font-family: "Inter", sans-serif;
+  font-size: 1.25rem;
+  display: flex;
+  place-items: center;
+  place-content: space-between;
+  width: 100%;
+  color: var(--text-color-dark);
+  margin-bottom: var(--spacing-sm);
+  padding: var(--spacing-md) 0;
+  font-weight: bold;
+}
+
+.form-group {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+  padding-bottom: 0;
+  border-radius: var(--border-radius-inner);
+}
+
+.form-group--currency::before {
+  content: "\24";
+  font-family: "Font Awesome 6 Pro";
+  font-weight: bold;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  aspect-ratio: 1/1;
+  display: flex;
+  place-items: center;
+  place-content: center;
+}
+
+.form-group--currency .form-group__input {
+  padding-left: var(--spacing-xl);
+  text-align: right;
+}
+
+.form-group__label {
+  font-family: "Barlow Semi Condensed", sans-serif;
+  font-weight: 800;
+  font-size: 85%;
+  text-transform: uppercase; 
+  letter-spacing: 0.075em;
+  color: var(--text-color);
+  padding-top: var(--spacing-sm);
+}
+
+.form-group__input {
+  font-family: "Inter";
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-color-dark);
+  padding: var(--spacing-sm);
+  width: 100%;
+  background-color: var(--gray-100);
+  border: none;
+  border-bottom: var(--border);
+  border-radius: var(--border-radius-inner) var(--border-radius-inner) 0 0;
+}
+
+::placeholder {
+  color: var(--text-color-light);
+  opacity: 1;
+}
+
+.form-group__input:hover {
+  border-color: var(--gray-300);
+}
+
+.form-group__input:valid {
+  background-color: transparent;
+}
+
+.form-group__input:focus {
+  outline: none;
+  border-color: var(--text-color);
+}
+
+.form-container {
+  appearance: none;
+  margin: 0;
+  margin-top: var(--spacing-sm);
+  padding: var(--spacing-sm);
+  border: none;
+  border-radius: var(--border-radius-inner);
+  background-color: var(--gray-100);
+}
+
+.form-container__label {
+  font-family: "Barlow Semi Condensed", sans-serif;
+  font-weight: 800;
+  font-size: 85%;
+  text-transform: uppercase; 
+  letter-spacing: 0.075em;
+  color: var(--text-color);
+  position: relative;
+  translate: calc(var(--spacing-sm) * -1) calc(-50% - var(--spacing-xs));
+  margin-top: var(--spacing-md)
+}
+
+.form-container__body {
+  display: grid;
+  gap: var(--spacing-lg);
+  margin-top: calc(var(--spacing-md) * -1);
+}
+
+.flex {
+  display: flex;
+  gap: var(--spacing-md);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.flex--column {
+  flex-direction: column;
+}
+
+.flex-grow {
+  flex-grow: 1;
+}
+
+.table {
+  width: 100%;
+}
+
+table {
+   border-collapse: collapse;
+}
+
+.table th {
+  font-family: "Barlow Semi Condensed", sans-serif;
+  font-weight: 800;
+  font-size: 85%;
+  text-transform: uppercase; 
+  letter-spacing: 0.075em;
+  color: var(--text-color);
+  text-align: left;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  padding-bottom: 0;
+}
+
+.u-text-align-right {
+  text-align: right !important;
+}
+
+.table td {
+  font-family: "Inter", sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-color);
+  padding: var(--spacing-xs) var(--spacing-sm);
+}
+
+.table td:first-child {
+  width: 40%;
+}
+
+.table input {
+  width: 100%;
+  min-width: 0;
+}
+
+.table tfoot th {
+  font-family: "Inter", dans-serif;
+  font-size: 1rem;
+  font-weight: bold;
+  font-style: normal;
+  color: var(--text-color-dark);
+  text-transform: none;
+  letter-spacing: 0;
+  padding: var(--spacing-sm);
+}
+
+.table tfoot td {
+  font-weight: bold;
+  color: var(--text-color-dark);
+}
+
+.table tfoot th,
+.table tfoot td {
+  border-top: var(--border);
+  min-height: var(--spacing-xl);
+}
+
+@media screen and (max-width: 900px) {
+  .table table {
+    display: grid;
+  }
+  
+  .table thead {
+    display: none;
+    visibility: hidden;
+  }
+  
+  .table tbody {
+    display: grid;
+    gap: var(--spacing-lg);
+  }
+  
+  .table tfoot {
+    display: grid;
+    margin-top: var(--spacing-lg);
+  }
+  
+  .table tr {
+    display: grid;
+  }
+  
+  .table .table__mobile-header {
+    width: 100% !important;
+    font-family: "Barlow Semi Condensed", sans-serif;
+    font-weight: 800;
+    font-size: 85%;
+    text-transform: uppercase; 
+    letter-spacing: 0.075em;
+    color: var(--text-color);
+    text-align: left;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    padding-bottom: 0;
+  }
+  
+  .table td[data-mobile-label] {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 1fr;
+    align-items: center;
+  }
+  
+  .table td::before {
+    content: attr(data-mobile-label);
+  }
+  
+  .table tfoot td {
+    border-top: none;
+  }
+  
+  .table tfoot td::before {
+    font-weight: normal;
+  }
+}
+
+</style>
+<body>
+
+  <nav class="navbar navbar-expand-lg bg-light border-bottom border-body">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="home.html">Advanced</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarScroll">
+        <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="home.html">Home</a>
+          </li>
+          
+        
+      </div>
+    </div>
+  </nav>
+  
+  
+  <svg class="hidden">
+  <defs>
+    <filter id="rounded">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="0.75" result="blur"></feGaussianBlur>
+          <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9" result="goo"></feColorMatrix>
+          <feComposite in="SourceGraphic" in2="goo" operator="atop"></feComposite>
+        </filter>
+  </defs>
+</svg>
+
+<header class="header">
+  <div class="frame">
+    <svg class="frame__bg" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" id="svg2" version="1.1" inkscape:version="0.91 r13725" width="1080" height="1080" viewBox="0 0 1080 1080" sodipodi:docname="Tire Tracks.svg" inkscape:export-filename="Tire Tracks.png" inkscape:export-xdpi="90" inkscape:export-ydpi="90">
+  <metadata id="metadata8">
+    <rdf:RDF>
+      <cc:Work rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+        <dc:title/>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs id="defs6"/>
+  <sodipodi:namedview pagecolor="#ffffff" bordercolor="#666666" borderopacity="1" objecttolerance="10" gridtolerance="10" guidetolerance="10" inkscape:pageopacity="0" inkscape:pageshadow="2" inkscape:window-width="1366" inkscape:window-height="715" id="namedview4" showgrid="false" inkscape:zoom="0.52685185" inkscape:cx="540" inkscape:cy="540" inkscape:window-x="-8" inkscape:window-y="-8" inkscape:window-maximized="1" inkscape:current-layer="svg2"/>
+ 
+   
+    <ul class="tag-container">
+        
+      </ul>
+    
+  </div>
+  <p class="lead-text lead-text--inverse" style="padding-top: var(--spacing-md);"><span class="icon scroll-symbol"></span></p>
+</header>
+<section class="content-container">
+  
+  <div class="card">
+    <div class="card__body">
+      <div class="journal">
+        <fieldset class="journal-section">
+          <legend class="journal-section__label">Mobile Team works</legend>
+          <div class="form-group">
+            <br>
+            <label for="tripName" class="form-group__label">
+              <i class="fa-duotone fa-notebook icon-flag"></i>
+              Job Name
+            </label>
+
+
+            <form action="mailto:tsusantha1111@gmail.com" method="post" enctype="text/plain">
+                Job Name:<br>
+                <input   type="text" id="tripName" class="" value="" placeholder="Enter Job details" required><br>
+                <b>Supervisor</b><br>
+                <input type="text" name="mail"><br>
+                <br>
+                <label for="departDate" class="form-group__label">
+                    <i class="fa-duotone fa-house-person-leave icon-flag"></i>
+                    Departure Date
+                  </label>
+                  <input type="date" id="departDate" class="form-group__input" value="" required>
+                </div>
+                <div class="form-group">
+                
+                </div>
+                <label for="notes" class="form-group__label ">
+                    <i class="fa-duotone fa-pen-clip icon-flag"></i>
+                    Notes
+                  </label>
+                  <textarea name="notes" id="notes" cols="30" rows="10" class="" required></textarea>
+
+               
+                <input type="submit" value="Send">
+                <input type="reset" value="Reset">
+                </form>
